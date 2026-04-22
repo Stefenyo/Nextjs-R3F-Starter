@@ -57,7 +57,7 @@ function Effects() {
         intensity={0.9}
         luminanceThreshold={0.15}
         luminanceSmoothing={0.9}
-        mipmapBlur
+        // mipmapBlur
         radius={0.8}
       />
 
@@ -80,6 +80,8 @@ export default function ChromaticTextScene() {
           // Important for bloom — we want HDR-ish values to survive.
           toneMappingExposure: 1.0,
         }}
+        // frameloop="demand"
+        dpr={[1, 2]}
       >
         <color attach="background" args={["#0a0a0a"]} />
 

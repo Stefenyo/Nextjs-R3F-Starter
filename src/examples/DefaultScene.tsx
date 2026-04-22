@@ -9,7 +9,14 @@ function Scene() {
     <Canvas
       style={{ width: "100%", height: "100%" }}
       eventPrefix="client"
-      eventSource={window?.document?.body ?? undefined}
+      eventSource={window?.document?.body}
+      gl={{
+        antialias: true,
+        // Important for bloom — we want HDR-ish values to survive.
+        toneMappingExposure: 1.0,
+      }}
+      frameloop="demand"
+      dpr={[1, 2]}
     >
       <color attach="background" args={["#080707"]} />
 
@@ -29,7 +36,7 @@ function Scene() {
           intensity={0.5} // The bloom intensity.
           luminanceThreshold={0} // luminance threshold. Raise this value to mask out darker elements in the scene.
           luminanceSmoothing={0} // smoothness of the luminance threshold. Range is [0, 1]
-          mipmapBlur={true} // Enables or disables mipmap blur.
+          // mipmapBlur={true} // Enables or disables mipmap blur.
         />
       </EffectComposer>
       <OrbitControls />
