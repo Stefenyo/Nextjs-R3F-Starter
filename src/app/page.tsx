@@ -1,9 +1,9 @@
-import ClientWrapper from "@/app/ClientWrapper";
+import DefaultScene from "@/examples/DefaultScene/DefaultScene.lazy";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div>
-      <ClientWrapper />
+    <div className="fullscreen">
+      <DefaultScene />
     </div>
   );
 }
