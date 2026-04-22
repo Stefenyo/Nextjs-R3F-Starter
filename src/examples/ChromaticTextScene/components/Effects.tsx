@@ -22,7 +22,7 @@ const Effects = () => {
 
   // Stable Vector2 for the initial prop — prevents r3f from replacing
   // the uniform on every render.
-  const initialOffset = useMemo(() => new Vector2(0.0022, 0.0022), []);
+  const initialOffset = useMemo(() => new Vector2(0.006, 0.002), []);
 
   // Gently modulate the chromatic aberration over time.
   // This is the secret sauce — static CA looks like a Photoshop filter,
@@ -33,7 +33,7 @@ const Effects = () => {
 
     const t = clock.getElapsedTime();
     const base = 0.0022;
-    const wobble = Math.sin(t * 0.8) * 0.0006;
+    const wobble = Math.sin(t * 0.8) * 0.002;
 
     // Mutate the existing uniform vector in place — never assign a new one.
     const offset = ca.uniforms.get("offset")?.value;
