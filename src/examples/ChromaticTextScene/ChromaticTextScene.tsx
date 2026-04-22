@@ -72,49 +72,43 @@ function Effects() {
 
 export default function ChromaticTextScene() {
   return (
-    <div style={{ width: "100vw", height: "100vh", background: "#0a0a0a" }}>
-      <Canvas
-        camera={{ position: [0, 0, 4], fov: 45 }}
-        gl={{
-          antialias: true,
-          // Important for bloom — we want HDR-ish values to survive.
-          toneMappingExposure: 1.0,
-        }}
-        // frameloop="demand"
-        dpr={[1, 2]}
-      >
-        <color attach="background" args={["#0a0a0a"]} />
+    <Canvas
+      camera={{ position: [0, 0, 4], fov: 45 }}
+      gl={{
+        antialias: true,
+        toneMappingExposure: 1.0,
+      }}
+      dpr={[1, 2]}
+    >
+      <color attach="background" args={["#0a0a0a"]} />
 
-        {/* Minimal lighting — we're mostly showing emissive text, but
-            a soft ambient keeps the material from going flat black on non-lit pixels. */}
-        <ambientLight intensity={0.4} />
+      {/* Minimal lighting — we're mostly showing emissive text, but
+          a soft ambient keeps the material from going flat black on non-lit pixels. */}
+      <ambientLight intensity={0.4} />
 
-        {/* * The text itself — serif, slightly cool-white, with a touch of emissive
-         * so the Bloom pass has something hot to latch onto. */}
-        <Suspense fallback={null}>
-          <Text
-            font="./cormorant-garamond-v21-latin-700italic.woff"
+      <Suspense fallback={null}>
+        <Text
+          font="./cormorant-garamond-v21-latin-700italic.woff"
+          color="#e8eef5"
+          fontSize={1}
+          anchorX="center"
+          anchorY="middle"
+          maxWidth={1}
+          lineHeight={0.75}
+          fontStyle="italic"
+          letterSpacing={-0.02}
+        >
+          Only Time
+          <meshStandardMaterial
             color="#e8eef5"
-            fontSize={1}
-            anchorX="center"
-            anchorY="middle"
-            maxWidth={1}
-            lineHeight={0.75}
-            fontStyle="italic"
-            letterSpacing={-0.02}
-          >
-            Only Time
-            <meshStandardMaterial
-              color="#e8eef5"
-              emissive="#ffffff"
-              emissiveIntensity={0.35}
-              toneMapped={false}
-            />
-          </Text>
-        </Suspense>
+            emissive="#ffffff"
+            emissiveIntensity={0.35}
+            toneMapped={false}
+          />
+        </Text>
+      </Suspense>
 
-        <Effects />
-      </Canvas>
-    </div>
+      <Effects />
+    </Canvas>
   );
 }
