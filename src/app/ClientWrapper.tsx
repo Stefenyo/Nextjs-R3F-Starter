@@ -1,24 +1,26 @@
 "use client";
-import { Scene } from "@/components/scenes";
-import { Theme } from "@radix-ui/themes";
+import dynamic from "next/dynamic";
 
-import "@radix-ui/themes/styles.css";
+const DefaultScene = dynamic(() => import("@/examples/DefaultScene"), {
+  ssr: false,
+});
+
+// const ChromaticTextScene = dynamic(
+//   () => import("@/examples/ChromaticTextScene"),
+//   {
+//     ssr: false,
+//   },
+// );
 
 export default function ClientWrapper() {
   return (
-    <Theme hasBackground={false}>
-      <div
-        style={{
-          width: "100vw",
-          height: "100vh",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: "-1",
-        }}
-      >
-        <Scene />
-      </div>
-    </Theme>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
+      <DefaultScene />
+    </div>
   );
 }
