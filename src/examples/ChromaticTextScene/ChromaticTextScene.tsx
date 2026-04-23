@@ -34,8 +34,9 @@ export default function ChromaticTextScene() {
           lineHeight={0.75}
           fontStyle="italic"
           letterSpacing={-0.02}
+          textAlign="center"
         >
-          Only Time
+          Stay Present.
           <meshStandardMaterial
             color="#e8eef5"
             emissive="#ffffff"
