@@ -1,17 +1,15 @@
 "use client";
-
+import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-
 import {
   EffectComposer,
   Bloom,
-  ChromaticAberration,
   Noise,
   Vignette,
 } from "@react-three/postprocessing";
 import { BlendFunction, ChromaticAberrationEffect } from "postprocessing";
 import { Vector2 } from "three";
-import { useRef, useMemo } from "react";
+import { ChromaticAberration } from "@/components/ChromaticAberration";
 
 /**
  * Post-processing stack. Order is load-bearing:
@@ -22,33 +20,33 @@ const Effects = () => {
 
   // Stable Vector2 for the initial prop — prevents r3f from replacing
   // the uniform on every render.
-  const initialOffset = useMemo(() => new Vector2(0.006, 0.002), []);
+  const initialOffset = useMemo(() => new Vector2(0.003, 0.0025), []);
 
   // Gently modulate the chromatic aberration over time.
   // This is the secret sauce — static CA looks like a Photoshop filter,
   // animated CA reads as an unstable optical system.
-  useFrame(({ clock }) => {
-    const ca = caRef.current;
-    if (!ca) return;
+  // useFrame(({ clock }) => {
+  //   const ca = caRef.current;
+  //   if (!ca) return;
 
-    const t = clock.getElapsedTime();
-    const base = 0.0022;
-    const wobble = Math.sin(t * 0.8) * 0.002;
+  //   const t = clock.getElapsedTime();
+  //   const base = 0.003;
+  //   const wobble = Math.sin(t * 0.8) * 0.002;
 
-    // Mutate the existing uniform vector in place — never assign a new one.
-    const offset = ca.uniforms.get("offset")?.value;
-    if (offset) offset.set(base + wobble, base + wobble);
-  });
+  //   // Mutate the existing uniform vector in place — never assign a new one.
+  //   const offset = ca.uniforms.get("offset")?.value;
+  //   if (offset) offset.set(base + wobble, base + wobble);
+  // });
 
   return (
     <EffectComposer multisampling={0}>
       {/* Radial-feeling RGB split. Keep offsets tiny — large values look cheap. */}
       <ChromaticAberration
-        // ref={caRef}
+        ref={caRef}
         blendFunction={BlendFunction.NORMAL}
         offset={initialOffset}
         radialModulation={true}
-        modulationOffset={0.15}
+        modulationOffset={0.1}
       />
 
       {/* The glow halo. Low threshold so even the slightly-emissive text blooms. */}
