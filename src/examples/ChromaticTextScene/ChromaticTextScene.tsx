@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, extend } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import { Effects } from "./components/Effects";
 import { FrameLimiter } from "./components/FrameLimiter";
