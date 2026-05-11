@@ -45,6 +45,10 @@ const frag = /* glsl */ `
     float chroma = uChroma * mask;
     float blurAmt = uBlur * mask;
 
+    // softness scales with blur so each tap's transition zone overlaps its neighbours,
+    // preventing discrete bands from showing through
+    float softness = max(0.004, blurAmt * 0.5);
+
     vec3 col = vec3(0.0);
     const int TAPS = 5;
     float total = 0.0;
@@ -52,9 +56,9 @@ const frag = /* glsl */ `
       float t = (float(i) - 2.0) / 2.0;
       float wgt = exp(-t * t * 1.5);
       vec2 off = dir * t * blurAmt;
-      float rCh = disc(vUv + off + dir * chroma, 0.004);
-      float gCh = disc(vUv + off,                 0.004);
-      float bCh = disc(vUv + off - dir * chroma, 0.004);
+      float rCh = disc(vUv + off + dir * chroma, softness);
+      float gCh = disc(vUv + off,                 softness);
+      float bCh = disc(vUv + off - dir * chroma, softness);
       col += vec3(rCh, gCh, bCh) * wgt;
       total += wgt;
     }
