@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { Effects } from "./Effects";
 
 const vert = /* glsl */ `
   varying vec2 vUv;
@@ -23,7 +24,7 @@ const frag = /* glsl */ `
 
   float disc(vec2 uv, float softness) {
     float r = length(uv - 0.5);
-    return 1.0 - smoothstep(0.48 - softness, 0.48 + softness, r);
+    return 1.0 - smoothstep(0.40 - softness, 0.40 + softness, r);
   }
 
   void main() {
@@ -37,7 +38,7 @@ const frag = /* glsl */ `
     d = min(d, 2.0 * PI - d);
 
     float band = smoothstep(uArc, 0.0, d);
-    float edge = smoothstep(0.30, 0.48, r);
+    float edge = smoothstep(0.25, 0.40, r);
     float mask = edge * band;
 
     vec2 dir = r > 0.0001 ? p / r : vec2(1.0, 0.0);
@@ -73,7 +74,7 @@ const UNIFORMS = {
   uTime: { value: 0 },
   uChroma: { value: 0.04 },
   uBlur: { value: 0.05 },
-  uArc: { value: 0.9 },
+  uArc: { value: 3.5 },
 };
 
 function Disc() {
@@ -93,7 +94,7 @@ function Disc() {
   });
 
   return (
-    <mesh scale={[size, size, 1]}>
+    <mesh scale={[5, 5, 1]}>
       <planeGeometry args={[1, 1]} />
       <shaderMaterial
         ref={matRef}
@@ -114,6 +115,8 @@ export default function ChromaticRimSweep() {
       dpr={[1, 2]}
     >
       <Disc />
+
+      <Effects />
     </Canvas>
   );
 }
